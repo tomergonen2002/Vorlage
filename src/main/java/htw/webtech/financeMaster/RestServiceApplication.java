@@ -1,4 +1,4 @@
-package com.example.rest_service;
+package htw.webtech.financeMaster;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

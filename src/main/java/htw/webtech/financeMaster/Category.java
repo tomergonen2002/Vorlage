@@ -1,4 +1,4 @@
-package com.example.rest_service;
+package htw.webtech.financeMaster;
 
 public class Category {
     private Long id;

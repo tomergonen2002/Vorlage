@@ -1,4 +1,4 @@
-package com.example.rest_service;
+package htw.webtech.financeMaster;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

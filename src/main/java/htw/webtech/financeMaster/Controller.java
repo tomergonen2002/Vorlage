@@ -1,4 +1,4 @@
-package com.example.rest_service;
+package htw.webtech.financeMaster;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +9,7 @@ public class Controller {
 
     @GetMapping("/")
     public String index() {
-        return "Welcome to FinanceMaster!";
+        return "Welcome to FinanceMaster!\nYour personal finance tracker.";
     }
 
     @GetMapping("/categories")
