@@ -1,0 +1,28 @@
+# Render deployment configuration (helper / example)
+# Create two services on Render: one for the backend (Java) and one for the frontend (static site)
+# This file is a helpful template. Adapt the fields in the Render dashboard or via CLI.
+
+services:
+  - name: finance-backend
+    type: web
+    # Use Docker for full control, or let Render auto-detect build commands
+    # If you prefer using Render's build & start commands, set env: native and specify buildCommand/startCommand.
+    env: docker
+    repo: https://github.com/<your-org-or-user>/<your-repo>
+    branch: main
+    # Example Dockerfile approach: provide a Dockerfile at repo root that builds the Spring Boot jar and runs it
+
+  - name: finance-frontend
+    type: static
+    env: static
+    repo: https://github.com/<your-org-or-user>/<your-repo>
+    branch: main
+    # Build command for frontend
+    buildCommand: cd frontend && npm ci && npm run build
+    # Publish directory for static site (Vite default)
+    publishPath: frontend/dist
+
+# Notes:
+# - Set environment variables for the backend service on Render: JDBC_DATABASE_URL, DB_USER, DB_PASSWORD
+# - In the frontend service, add an environment variable VITE_API_BASE set to the backend URL (e.g. https://finance-backend.onrender.com)
+# - CORS is already configured in the backend to allow https://*.onrender.com

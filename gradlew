@@ -1,3 +1,22 @@
+#!/usr/bin/env sh
+# Lightweight gradlew shim: if gradle-wrapper.jar exists, run it; otherwise delegate to system 'gradle' if available.
+# This allows './gradlew' to work even if the wrapper jar was not committed.
+
+set -e
+
+WRAPPER_JAR="$(dirname "$0")/gradle/wrapper/gradle-wrapper.jar"
+
+if [ -f "$WRAPPER_JAR" ]; then
+  exec java -jar "$WRAPPER_JAR" "$@"
+else
+  if command -v gradle >/dev/null 2>&1; then
+    exec gradle "$@"
+  else
+    echo "ERROR: gradle wrapper jar not found and 'gradle' is not installed on this system." >&2
+    echo "Please install Gradle or generate/commit the gradle-wrapper.jar using 'gradle wrapper'." >&2
+    exit 1
+  fi
+fi
 #!/bin/sh
 
 #

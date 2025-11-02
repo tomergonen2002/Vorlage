@@ -1,18 +1,17 @@
 :root {
-  /* Farbpalette */
-  --primary: #10b981;
-  --primary-dark: #059669;
-  --primary-bg: #ecfdf5;
-  --secondary: #3b82f6;
-  --bg: #f3f4f6;
-  --surface: #ffffff;
-  --text: #111827;
-  --text-light: #6b7280;
-  --border: #d1d5db;
-  --error: #ef4444;
-  --error-bg: #fee2e2;
-  --success: #10b981;
-  --success-bg: #d1fae5;
+  /* Grün-Schwarz Dark Mode */
+  --primary: #22c55e;       /* helles Grün */
+  --primary-dark: #16a34a;  /* dunkleres Grün */
+  --secondary: #86efac;
+  --bg: #0b0f0b;            /* sehr dunkles Schwarz-Grün */
+  --surface: #07100a;       /* leicht aufgehellte Oberfläche */
+  --text: #d7ffe0;          /* helles grünlich/weiß für Text */
+  --text-light: #9bd8a4;    /* weniger kontrastreiche Texte */
+  --border: rgba(34,197,94,0.12);
+  --error: #ff6b6b;
+  --error-bg: rgba(255,107,107,0.08);
+  --success: #22c55e;
+  --success-bg: rgba(34,197,94,0.06);
   
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
@@ -56,13 +55,13 @@ h3 {
 
 button {
   border-radius: 8px;
-  border: 1px solid var(--border);
+  border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--primary);
-  color: white;
+  background-color: linear-gradient(180deg, var(--primary), var(--primary-dark));
+  color: var(--surface);
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -80,7 +79,7 @@ input, select, textarea {
   font-family: inherit;
   font-size: 1em;
   color: var(--text);
-  background-color: var(--surface);
+  background-color: transparent;
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.6em;
@@ -101,12 +100,12 @@ input:focus, select:focus, textarea:focus {
 
 /* Common UI helpers */
 .card { 
-  background: var(--surface); 
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border: 1px solid var(--border);
   border-radius: 12px; 
   padding: 1.5rem; 
   margin-bottom: 1.5rem; 
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 18px rgba(2,6,2,0.6);
 }
 
 .error { 

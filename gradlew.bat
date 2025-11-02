@@ -1,3 +1,22 @@
+@echo off
+REM Lightweight gradlew.bat shim: if gradle\wrapper\gradle-wrapper.jar exists, run it; otherwise delegate to system gradle.
+
+SET WRAPPER_JAR=%~dp0gradle\wrapper\gradle-wrapper.jar
+
+IF EXIST "%WRAPPER_JAR%" (
+    java -jar "%WRAPPER_JAR%" %*
+    EXIT /B %ERRORLEVEL%
+) ELSE (
+    where gradle >nul 2>nul
+    IF %ERRORLEVEL%==0 (
+        gradle %*
+        EXIT /B %ERRORLEVEL%
+    ) ELSE (
+        echo ERROR: gradle wrapper jar not found and 'gradle' is not installed on this system.
+        echo Please install Gradle or generate/commit the gradle-wrapper.jar using 'gradle wrapper'.
+        EXIT /B 1
+    )
+)
 @rem
 @rem Copyright 2015 the original author or authors.
 @rem

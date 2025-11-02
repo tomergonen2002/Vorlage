@@ -1,0 +1,49 @@
+name: Deploy to Render (manual/template)
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_frontend:
+        description: 'Deploy frontend service?'
+        required: false
+        default: 'true'
+      deploy_backend:
+        description: 'Deploy backend service?'
+        required: false
+        default: 'true'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Render (Frontend)
+        if: github.event.inputs.deploy_frontend == 'true'
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_FRONTEND_SERVICE_ID: ${{ secrets.RENDER_FRONTEND_SERVICE_ID }}
+        run: |
+          echo "Triggering frontend deploy..."
+          curl -s -X POST https://api.render.com/v1/services/$RENDER_FRONTEND_SERVICE_ID/deploys \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache":true}'
+
+      - name: Deploy to Render (Backend)
+        if: github.event.inputs.deploy_backend == 'true'
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_BACKEND_SERVICE_ID: ${{ secrets.RENDER_BACKEND_SERVICE_ID }}
+        run: |
+          echo "Triggering backend deploy..."
+          curl -s -X POST https://api.render.com/v1/services/$RENDER_BACKEND_SERVICE_ID/deploys \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache":true}'
+
+# Notes: Set the following GitHub Secrets in the repository settings before using this workflow:
+# - RENDER_API_KEY
+# - RENDER_FRONTEND_SERVICE_ID
+# - RENDER_BACKEND_SERVICE_ID
