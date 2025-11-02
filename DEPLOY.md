@@ -89,6 +89,21 @@ curl http://localhost:8080/categories
 
 Wenn die Einträge auftauchen, ist M4 lokal verifiziert.
 
+## API Endpoints (kurze Referenz)
+
+Die wichtigsten Endpunkte, die nach Deploy oder lokal verfügbar sind:
+
+- `GET /` — Index (Willkommensnachricht)
+- `GET /categories` — Kategorien (optional `userId`)
+- `POST /categories` — Kategorie anlegen (CreateCategoryRequest JSON)
+- `GET /transactions` — Alle Transaktionen (optional `userId`)
+- `POST /transactions` — Transaktion anlegen (CreateTransactionRequest JSON)
+- `GET /transactions/recent?limit=10&userId=...` — Letzte n Transaktionen
+- `GET /stats?userId=...` — Aggregierte Kennzahlen (Total, Income, Expense, Net, byCategory)
+- `POST /reset-dummy` — Dummy-Daten zurücksetzen (dev helper)
+
+Nutze diese Endpunkte für die Verifikation nach Deploy; Beispiel-curl-Aufrufe findest du oben im Abschnitt "Lokales Testen".
+
 5) Verifikation nach Deploy (Produktiv)
 
 1. Öffne die Frontend-URL, die Render bereitstellt.

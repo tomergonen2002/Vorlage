@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import htw.webtech.financeMaster.rest.dto.CategoryDto;
 import htw.webtech.financeMaster.rest.dto.TransactionDto;
+import htw.webtech.financeMaster.rest.dto.StatsDto;
 import java.time.LocalDate;
 import htw.webtech.financeMaster.rest.dto.CreateCategoryRequest;
 import htw.webtech.financeMaster.rest.dto.CreateTransactionRequest;
@@ -29,11 +30,13 @@ public class FinanceController {
     private final CategoryRepository categoryRepository;
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final htw.webtech.financeMaster.service.FinanceService financeService;
 
-    public FinanceController(CategoryRepository categoryRepository, TransactionRepository transactionRepository, UserRepository userRepository) {
+    public FinanceController(CategoryRepository categoryRepository, TransactionRepository transactionRepository, UserRepository userRepository, htw.webtech.financeMaster.service.FinanceService financeService) {
         this.categoryRepository = categoryRepository;
         this.transactionRepository = transactionRepository;
         this.userRepository = userRepository;
+        this.financeService = financeService;
     }
 
     @GetMapping("/")
@@ -142,5 +145,17 @@ public class FinanceController {
         categoryRepository.save(new Category("Freizeit", "Sport, Kino, etc.", dummy));
         categoryRepository.save(new Category("Gehalt", "Monatliches Einkommen", dummy));
         return ResponseEntity.ok("Dummy-Daten zurückgesetzt!");
+    }
+
+    // New: aggregated stats endpoint
+    @GetMapping("/stats")
+    public StatsDto getStats(@RequestParam(required = false) Long userId) {
+        return financeService.getStats(userId);
+    }
+
+    // New: recent transactions
+    @GetMapping("/transactions/recent")
+    public java.util.List<htw.webtech.financeMaster.rest.dto.RecentTransactionDto> getRecentTransactions(@RequestParam(required = false) Long userId, @RequestParam(defaultValue = "10") int limit) {
+        return financeService.getRecentTransactions(userId, limit);
     }
 }

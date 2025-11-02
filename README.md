@@ -86,3 +86,33 @@ Wichtig: Das Frontend hat standardmäßig `API_BASE = import.meta.env?.VITE_API_
 
 ---
 Wenn du willst, erstelle ich noch eine detaillierte `DEPLOY.md` mit Schritt-für-Schritt Render-Anleitung und Screenshots (oder ich füge Gradle-Wrapper-Binaries hinzu). Sag kurz, welche Option du bevorzugst.
+
+## API Endpoints (Kurzreferenz)
+
+Unten eine kompakte Übersicht über die wichtigsten Backend-Endpoints, die du lokal unter `http://localhost:8080` testen kannst.
+
+| Pfad | Methode | Query / Body | Beschreibung | Beispielantwort |
+|---|---|---|---|---|
+| `/` | GET | - | Index / Willkommensnachricht | "Welcome to FinanceMaster!" |
+| `/categories` | GET | optional `userId` | Liste aller Kategorien oder nur eines Nutzers | `[ { "id":1, "name":"Lebensmittel", "description":"..." } ]` |
+| `/categories` | POST | CreateCategoryRequest (JSON) | Kategorie anlegen | 201 Created mit gespeicherter Category JSON |
+| `/transactions` | GET | optional `userId` | Liste aller Transaktionen | `[ { "id":1, "type":"Einnahme", "amount":10.5, ... } ]` |
+| `/transactions` | POST | CreateTransactionRequest (JSON) | Transaktion anlegen | 201 Created mit gespeicherter Transaction JSON |
+| `/transactions/recent` | GET | optional `userId`, optional `limit` (default 10) | Letzte n Transaktionen (Datum absteigend) | `[ { "id":..., "type":"...", "amount":..., "date":"2025-11-02", "categoryName":"..." } ]` |
+| `/stats` | GET | optional `userId` | Aggregierte Kennzahlen (Total, Income, Expense, Net, byCategory) | `{ "totalTransactions":12, "totalIncome":5234.5, "totalExpense":3120.0, "net":2114.5, "byCategory": [...] }` |
+| `/reset-dummy` | POST | - | Setzt die Dummy-Daten zurück (dev helper) | "Dummy-Daten zurückgesetzt!" |
+
+Beispiele (curl):
+
+```bash
+# Alle Transaktionen (lokal)
+curl http://localhost:8080/transactions
+
+# Letzte 5 Transaktionen
+curl 'http://localhost:8080/transactions/recent?limit=5'
+
+# Aggregierte Stats
+curl http://localhost:8080/stats
+```
+
+Wenn du möchtest, erweitere ich diese Sektion um OpenAPI/Swagger-Links, sobald Swagger hinzugefügt wurde.
