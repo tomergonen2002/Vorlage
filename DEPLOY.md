@@ -13,10 +13,11 @@ Voraussetzungen
   1. In Render → New → Web Service → Connect repository → Branch `main`.
   2. Build Command: `./gradlew bootJar` (oder `./gradlew build`).
   3. Start Command: `java -jar build/libs/<your-jar-name>.jar` (Passe `<your-jar-name>` an, z. B. `rest-service-0.0.1-SNAPSHOT.jar`).
-  4. Environment:
+  4. Environment (wichtig: Produktionsprofil aktivieren):
      - `JDBC_DATABASE_URL` = z. B. `postgres://user:pass@host:5432/dbname` (Render stellt DB oder extern)
      - `DB_USER` = postgres username
      - `DB_PASSWORD` = postgres password
+    - `SPRING_PROFILES_ACTIVE` = `prod`
   5. Optional: Set `SPRING_PROFILES_ACTIVE=prod` falls ihr prod-Profile nutzen wollt.
 
 - Option B — Mit Docker:
@@ -32,7 +33,7 @@ Hinweis: CORS ist bereits so konfiguriert, dass `https://*.onrender.com` erlaubt
 2. Build Command: `cd frontend && npm ci && npm run build`
 3. Publish Directory: `frontend/dist`
 4. Environment:
-   - `VITE_API_BASE` = `https://<your-backend-service>.onrender.com` (Backend-URL)
+  - `VITE_API_BASE` = `https://<your-backend-service>.onrender.com/api` (Backend-URL inkl. `/api`)
 
 3) GitHub-Secrets & Optionaler GitHub Action Deploy
 
@@ -83,8 +84,8 @@ npm run dev
   - Erstelle eine Kategorie (UI) und eine Transaktion (UI). Dann prüfe via GET:
 
 ```bash
-curl http://localhost:8080/transactions
-curl http://localhost:8080/categories
+curl http://localhost:8080/api/transactions
+curl http://localhost:8080/api/categories
 ```
 
 Wenn die Einträge auftauchen, ist M4 lokal verifiziert.
@@ -93,14 +94,18 @@ Wenn die Einträge auftauchen, ist M4 lokal verifiziert.
 
 Die wichtigsten Endpunkte, die nach Deploy oder lokal verfügbar sind:
 
-- `GET /` — Index (Willkommensnachricht)
-- `GET /categories` — Kategorien (optional `userId`)
-- `POST /categories` — Kategorie anlegen (CreateCategoryRequest JSON)
-- `GET /transactions` — Alle Transaktionen (optional `userId`)
-- `POST /transactions` — Transaktion anlegen (CreateTransactionRequest JSON)
-- `GET /transactions/recent?limit=10&userId=...` — Letzte n Transaktionen
-- `GET /stats?userId=...` — Aggregierte Kennzahlen (Total, Income, Expense, Net, byCategory)
-- `POST /reset-dummy` — Dummy-Daten zurücksetzen (dev helper)
+- `GET /api/` — Index (Willkommensnachricht)
+- `GET /api/categories` — Kategorien (optional `userId`)
+- `POST /api/categories` — Kategorie anlegen (CreateCategoryRequest JSON)
+- `PUT /api/categories/{id}` — Kategorie bearbeiten
+- `DELETE /api/categories/{id}` — Kategorie löschen (blockiert, falls Transaktionen existieren)
+- `GET /api/transactions` — Alle Transaktionen (optional `userId`, Filter: `categoryId`, `from`, `to`, Pagination `page`,`size`)
+- `POST /api/transactions` — Transaktion anlegen (CreateTransactionRequest JSON)
+- `PUT /api/transactions/{id}` — Transaktion bearbeiten
+- `DELETE /api/transactions/{id}` — Transaktion löschen
+- `GET /api/transactions/recent?limit=10&userId=...` — Letzte n Transaktionen
+- `GET /api/stats?userId=...` — Aggregierte Kennzahlen (Total, Income, Expense, Net, byCategory)
+- `POST /api/reset-dummy` — Dummy-Daten zurücksetzen (dev helper)
 
 Nutze diese Endpunkte für die Verifikation nach Deploy; Beispiel-curl-Aufrufe findest du oben im Abschnitt "Lokales Testen".
 

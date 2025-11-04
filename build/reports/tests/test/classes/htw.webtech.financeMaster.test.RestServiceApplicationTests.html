@@ -97,17 +97,17 @@
 
  :: Spring Boot ::                (v3.5.6)
 
-2025-11-02T13:19:07.302+01:00  INFO 14156 --- [finance-master] [    Test worker] h.w.f.test.RestServiceApplicationTests   : Starting RestServiceApplicationTests using Java 25 with PID 14156 (started by tomer in /Users/tomer/Desktop/Vorlage)
-2025-11-02T13:19:07.302+01:00  INFO 14156 --- [finance-master] [    Test worker] h.w.f.test.RestServiceApplicationTests   : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-11-02T13:19:07.349+01:00  INFO 14156 --- [finance-master] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-02T13:19:07.355+01:00  INFO 14156 --- [finance-master] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 3 JPA repository interfaces.
-2025-11-02T13:19:07.391+01:00  INFO 14156 --- [finance-master] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-02T13:19:07.392+01:00  INFO 14156 --- [finance-master] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-02T13:19:07.395+01:00  INFO 14156 --- [finance-master] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-02T13:19:07.396+01:00  INFO 14156 --- [finance-master] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
-2025-11-02T13:19:07.396+01:00  INFO 14156 --- [finance-master] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn20: url=jdbc:h2:mem:testdb user=SA
-2025-11-02T13:19:07.396+01:00  INFO 14156 --- [finance-master] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
-2025-11-02T13:19:07.397+01:00  INFO 14156 --- [finance-master] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2025-11-04T16:24:59.745+01:00  INFO 44971 --- [finance-master] [    Test worker] h.w.f.test.RestServiceApplicationTests   : Starting RestServiceApplicationTests using Java 25 with PID 44971 (started by tomer in /Users/tomer/Desktop/Vorlage)
+2025-11-04T16:24:59.746+01:00  INFO 44971 --- [finance-master] [    Test worker] h.w.f.test.RestServiceApplicationTests   : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-11-04T16:24:59.792+01:00  INFO 44971 --- [finance-master] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-04T16:24:59.795+01:00  INFO 44971 --- [finance-master] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 3 JPA repository interfaces.
+2025-11-04T16:24:59.833+01:00  INFO 44971 --- [finance-master] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-04T16:24:59.834+01:00  INFO 44971 --- [finance-master] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-04T16:24:59.838+01:00  INFO 44971 --- [finance-master] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-04T16:24:59.838+01:00  INFO 44971 --- [finance-master] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-11-04T16:24:59.839+01:00  INFO 44971 --- [finance-master] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn20: url=jdbc:h2:mem:testdb user=SA
+2025-11-04T16:24:59.839+01:00  INFO 44971 --- [finance-master] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-11-04T16:24:59.839+01:00  INFO 44971 --- [finance-master] [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
 	Database driver: undefined/unknown
 	Database version: 2.3.232
@@ -115,11 +115,11 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-11-02T13:19:07.412+01:00  INFO 14156 --- [finance-master] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-02T13:19:07.417+01:00  INFO 14156 --- [finance-master] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-02T13:19:07.443+01:00  WARN 14156 --- [finance-master] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-02T13:19:07.468+01:00  INFO 14156 --- [finance-master] [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
-2025-11-02T13:19:07.475+01:00  INFO 14156 --- [finance-master] [    Test worker] h.w.f.test.RestServiceApplicationTests   : Started RestServiceApplicationTests in 0.18 seconds (process running for 3.653)
+2025-11-04T16:24:59.855+01:00  INFO 44971 --- [finance-master] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-04T16:24:59.860+01:00  INFO 44971 --- [finance-master] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-04T16:24:59.892+01:00  WARN 44971 --- [finance-master] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-04T16:24:59.924+01:00  INFO 44971 --- [finance-master] [    Test worker] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2025-11-04T16:24:59.930+01:00  INFO 44971 --- [finance-master] [    Test worker] h.w.f.test.RestServiceApplicationTests   : Started RestServiceApplicationTests in 0.191 seconds (process running for 3.989)
 </pre>
 <button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="class-stdout">Copy</button>
 </span>
@@ -132,7 +132,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 9.1.0</a> at Nov 2, 2025, 1:19:07 PM</p>
+<a href="https://www.gradle.org">Gradle 9.1.0</a> at Nov 4, 2025, 4:25:00 PM</p>
 </div>
 </div>
 </body>

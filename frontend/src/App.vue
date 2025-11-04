@@ -32,6 +32,16 @@ function reloadCategories() {
   load()
 }
 
+async function handleCategoryDelete(id) {
+  try {
+    const res = await fetch(apiUrl(`/categories/${id}`), { method: 'DELETE' })
+    if (!res.ok) throw new Error('HTTP ' + res.status)
+    await load()
+  } catch (e) {
+    alert('Kategorie konnte nicht gelöscht werden: ' + e.message)
+  }
+}
+
 function handleAuthSuccess(user) {
   userAuthenticated.value = true
   showAuth.value = false
@@ -130,6 +140,7 @@ async function resetDummy() {
         :items="categories"
         :selectedCategory="selectedCategory"
         @select="handleCategorySelect"
+         @delete="handleCategoryDelete"
       />
 
   <TransactionList :categories="categories" :selectedCategory="selectedCategory" :userId="userId" :refreshKey="txRefreshKey" />

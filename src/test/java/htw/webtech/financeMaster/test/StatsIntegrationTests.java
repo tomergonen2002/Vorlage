@@ -29,7 +29,7 @@ public class StatsIntegrationTests {
         CreateCategoryRequest catReq = new CreateCategoryRequest();
         catReq.setName("StatCat");
         catReq.setDescription("for stats");
-        ResponseEntity<Map> catRes = restTemplate.postForEntity("/categories", catReq, Map.class);
+    ResponseEntity<Map> catRes = restTemplate.postForEntity("/api/categories", catReq, Map.class);
         assertThat(catRes.getStatusCode().is2xxSuccessful()).isTrue();
         Map body = catRes.getBody();
         assertThat(body).isNotNull();
@@ -43,20 +43,25 @@ public class StatsIntegrationTests {
         txReq.setDescription("stat test");
         txReq.setDate("2025-11-02");
         txReq.setCategoryId(catId.longValue());
-        ResponseEntity<Map> txRes = restTemplate.postForEntity("/transactions", txReq, Map.class);
+    ResponseEntity<Map> txRes = restTemplate.postForEntity("/api/transactions", txReq, Map.class);
         assertThat(txRes.getStatusCode().is2xxSuccessful()).isTrue();
 
         // call stats
-        ResponseEntity<Map> statsRes = restTemplate.exchange("/stats", HttpMethod.GET, null, new ParameterizedTypeReference<Map>() {});
+    ResponseEntity<java.util.Map<String,Object>> statsRes = restTemplate.exchange("/api/stats", HttpMethod.GET, null, new ParameterizedTypeReference<java.util.Map<String,Object>>() {});
         assertThat(statsRes.getStatusCode().is2xxSuccessful()).isTrue();
-        Map stats = statsRes.getBody();
+    java.util.Map<String,Object> stats = statsRes.getBody();
         assertThat(stats).isNotNull();
         assertThat(((Number)stats.get("totalTransactions")).intValue()).isGreaterThanOrEqualTo(1);
 
         // call recent
-        ResponseEntity(List.class) recentRes = restTemplate.exchange("/transactions/recent", HttpMethod.GET, null, List.class);
-        assertThat(recentRes.getStatusCode().is2xxSuccessful()).isTrue();
-        List recent = recentRes.getBody();
+    ResponseEntity<java.util.List<java.util.Map<String,Object>>> recentRes = restTemplate.exchange(
+        "/api/transactions/recent",
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<java.util.List<java.util.Map<String,Object>>>() {}
+    );
+    assertThat(recentRes.getStatusCode().is2xxSuccessful()).isTrue();
+    java.util.List<java.util.Map<String,Object>> recent = recentRes.getBody();
         assertThat(recent).isNotNull();
         assertThat(recent.size()).isGreaterThanOrEqualTo(1);
     }

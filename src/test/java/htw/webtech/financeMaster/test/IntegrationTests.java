@@ -31,7 +31,7 @@ public class IntegrationTests {
         catReq.setDescription("From integration test");
 
     ResponseEntity<Map<String, Object>> catRes = restTemplate.exchange(
-        "/categories",
+        "/api/categories",
         HttpMethod.POST,
         new HttpEntity<>(catReq),
         new ParameterizedTypeReference<Map<String, Object>>() {}
@@ -52,7 +52,7 @@ public class IntegrationTests {
         txReq.setCategoryId(catId);
 
     ResponseEntity<Map<String, Object>> txRes = restTemplate.exchange(
-        "/transactions",
+        "/api/transactions",
         HttpMethod.POST,
         new HttpEntity<>(txReq),
         new ParameterizedTypeReference<Map<String, Object>>() {}
@@ -64,7 +64,7 @@ public class IntegrationTests {
 
         // GET transactions and verify at least one exists
     ResponseEntity<Map<String, Object>[]> getRes = restTemplate.exchange(
-        "/transactions",
+        "/api/transactions",
         HttpMethod.GET,
         null,
         new ParameterizedTypeReference<Map<String, Object>[]>() {}
@@ -73,5 +73,66 @@ public class IntegrationTests {
     Map<String, Object>[] arr = getRes.getBody();
     assertThat(arr).isNotNull();
     assertThat(arr.length).isGreaterThanOrEqualTo(1);
+    }
+
+    @Test
+    void deleteCategoryBlockedWhenTransactionsExist_thenAllowAfterDeletingTransaction() {
+        // create a category
+        CreateCategoryRequest catReq = new CreateCategoryRequest();
+        catReq.setName("DelCat");
+        catReq.setDescription("to delete");
+        ResponseEntity<Map<String, Object>> catRes = restTemplate.exchange(
+            "/api/categories",
+            HttpMethod.POST,
+            new HttpEntity<>(catReq),
+            new ParameterizedTypeReference<Map<String, Object>>() {}
+        );
+        assertThat(catRes.getStatusCode().is2xxSuccessful()).isTrue();
+        Long catId = ((Number)catRes.getBody().get("id")).longValue();
+
+        // create a transaction for that category
+        CreateTransactionRequest txReq = new CreateTransactionRequest();
+        txReq.setType("Ausgabe");
+        txReq.setAmount(5.0);
+        txReq.setDescription("todelete");
+        txReq.setDate("2025-11-04");
+        txReq.setCategoryId(catId);
+
+        ResponseEntity<Map<String, Object>> txRes = restTemplate.exchange(
+            "/api/transactions",
+            HttpMethod.POST,
+            new HttpEntity<>(txReq),
+            new ParameterizedTypeReference<Map<String, Object>>() {}
+        );
+        assertThat(txRes.getStatusCode().is2xxSuccessful()).isTrue();
+
+        // try delete category -> should be bad request (blocked)
+        ResponseEntity<Void> delRes = restTemplate.exchange(
+            "/api/categories/" + catId,
+            HttpMethod.DELETE,
+            null,
+            Void.class
+        );
+        assertThat(delRes.getStatusCode().is4xxClientError()).isTrue();
+
+        // delete transaction
+        Map<String,Object> txBody = txRes.getBody();
+        Long txId = ((Number)txBody.get("id")).longValue();
+        ResponseEntity<Void> delTx = restTemplate.exchange(
+            "/api/transactions/" + txId,
+            HttpMethod.DELETE,
+            null,
+            Void.class
+        );
+        assertThat(delTx.getStatusCode().is2xxSuccessful()).isTrue();
+
+        // now delete category
+        ResponseEntity<Void> delRes2 = restTemplate.exchange(
+            "/api/categories/" + catId,
+            HttpMethod.DELETE,
+            null,
+            Void.class
+        );
+        assertThat(delRes2.getStatusCode().is2xxSuccessful()).isTrue();
     }
 }

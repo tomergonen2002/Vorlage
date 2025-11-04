@@ -13,10 +13,12 @@ const emit = defineEmits(['select'])
     <CategoryItem
       v-for="(c, idx) in items"
       :key="(c.id ?? c.name) + '-' + idx"
+      :id="c.id"
       :name="c.name"
       :description="c.description"
       :selected="selectedCategory === c.name"
       @select="emit('select', $event)"
+      @delete="emit('delete', $event)"
     />
   </ul>
 </template>

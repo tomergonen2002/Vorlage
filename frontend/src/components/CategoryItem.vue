@@ -1,13 +1,20 @@
 <script setup>
 const props = defineProps({
+  id: { type: [Number, String], required: false },
   name: { type: String, required: true },
   description: { type: String, default: '' },
   selected: { type: Boolean, default: false },
 })
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select','delete'])
 
 function handleClick() {
   emit('select', props.name)
+}
+
+function handleDelete(e) {
+  e.stopPropagation()
+  if (props.id == null) return
+  emit('delete', props.id)
 }
 </script>
 
@@ -15,6 +22,7 @@ function handleClick() {
   <li class="item" :class="{ selected }" @click="handleClick">
     <strong>{{ name }}</strong>
     <div v-if="description" class="desc">{{ description }}</div>
+    <button class="del" @click="handleDelete" title="Löschen">🗑️</button>
   </li>
   
 </template>

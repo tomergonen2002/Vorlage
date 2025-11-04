@@ -27,7 +27,7 @@ class FinanceControllerTests {
         var body = om.createObjectNode();
         body.put("email", "guest@finance.local");
         body.put("passwordHash", "");
-        var res = mvc.perform(post("/users/login")
+    var res = mvc.perform(post("/api/users/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(body)))
             .andExpect(status().isOk())
@@ -37,7 +37,7 @@ class FinanceControllerTests {
         long userId = user.get("id").asLong();
 
         // categories should have at least the two defaults
-        mvc.perform(get("/categories").param("userId", String.valueOf(userId)))
+        mvc.perform(get("/api/categories").param("userId", String.valueOf(userId)))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[?(@.name=='Lebensmittel')]").exists())
             .andExpect(jsonPath("$[?(@.name=='Gehalt')]").exists());
@@ -49,7 +49,7 @@ class FinanceControllerTests {
         var body = om.createObjectNode();
         body.put("email", "guest@finance.local");
         body.put("passwordHash", "");
-        var res = mvc.perform(post("/users/login")
+    var res = mvc.perform(post("/api/users/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(body)))
             .andExpect(status().isOk())
@@ -58,7 +58,7 @@ class FinanceControllerTests {
         long userId = user.get("id").asLong();
 
         // fetch categories to get an id
-        var catRes = mvc.perform(get("/categories").param("userId", String.valueOf(userId)))
+        var catRes = mvc.perform(get("/api/categories").param("userId", String.valueOf(userId)))
             .andExpect(status().isOk())
             .andReturn();
         var cats = om.readTree(catRes.getResponse().getContentAsString());
@@ -72,13 +72,13 @@ class FinanceControllerTests {
         tx.put("date", java.time.LocalDate.now().toString());
         tx.put("categoryId", catId);
 
-        mvc.perform(post("/transactions").param("userId", String.valueOf(userId))
+    mvc.perform(post("/api/transactions").param("userId", String.valueOf(userId))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(tx)))
             .andExpect(status().isCreated());
 
         // verify listed
-        mvc.perform(get("/transactions").param("userId", String.valueOf(userId)))
+        mvc.perform(get("/api/transactions").param("userId", String.valueOf(userId)))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].type").value("Einnahme"));
     }
